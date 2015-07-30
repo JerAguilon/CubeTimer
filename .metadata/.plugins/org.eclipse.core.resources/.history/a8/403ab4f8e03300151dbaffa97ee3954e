@@ -1,0 +1,14 @@
+package cubetimer;
+
+public class TempScramble extends Scrambler{
+	public TempScramble(){
+		super();
+	}
+
+	@Override
+	protected String[] scramble() {
+		String[] temp = {"Temporary", "scramble"};
+		return temp;
+	}
+	
+}

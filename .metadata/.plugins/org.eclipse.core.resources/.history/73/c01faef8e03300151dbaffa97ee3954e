@@ -1,0 +1,19 @@
+package cubetimer;
+
+public abstract class Scrambler {
+	protected static String scramble = "";
+	
+	public Scrambler(){
+		setScramble();
+	}
+
+	abstract public String[] scramble();
+	
+	public void setScramble(){
+		String[] scr = scramble();
+		scramble = "";
+		for(String item : scr){
+			scramble += item  + " ";
+		}
+	}
+}

@@ -1,0 +1,7 @@
+package cubetimer;
+
+public class ThreeThree extends Scrambler {
+	public ThreeThree(){
+		super();
+	}
+}

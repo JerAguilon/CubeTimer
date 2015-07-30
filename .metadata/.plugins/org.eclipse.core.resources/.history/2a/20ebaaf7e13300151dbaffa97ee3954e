@@ -1,0 +1,186 @@
+package cubetimer;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.Timer;
+
+import java.awt.Font;
+import java.awt.event.*;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
+import javax.swing.JButton;
+import javax.swing.JSplitPane;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+public class CubeTimer extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CubeTimer frame = new CubeTimer();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public CubeTimer() {
+		
+		//set Frame
+		setFont(new Font("Dialog", Font.PLAIN, 39));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 703, 484);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[]{418, 0, 0};
+		gbl_contentPane.rowHeights = new int[]{22, 0, 192, 20, 0};
+		gbl_contentPane.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		contentPane.setLayout(gbl_contentPane);
+		
+		//set time list
+		JTextArea timeList = new JTextArea();
+		GridBagConstraints gbc_timeList = new GridBagConstraints();
+		gbc_timeList.insets = new Insets(0, 0, 5, 0);
+		gbc_timeList.fill = GridBagConstraints.BOTH;
+		gbc_timeList.gridx = 1;
+		gbc_timeList.gridy = 2;
+		contentPane.add(timeList, gbc_timeList);
+		
+		//Timer
+		JLabel lblTime = new JLabel("0.00");
+		lblTime.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_lblTime = new GridBagConstraints();
+		gbc_lblTime.fill = GridBagConstraints.BOTH;
+		gbc_lblTime.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTime.gridx = 0;
+		gbc_lblTime.gridy = 2;
+		contentPane.add(lblTime, gbc_lblTime);
+		
+		Timer tm = new Timer(10, new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				double dblTime = Double.parseDouble(lblTime.getText()) + .01;
+				DecimalFormat df = new DecimalFormat("##.##");
+				dblTime = Double.valueOf(df.format(dblTime));
+				String newTime = Double.toString(dblTime);
+				lblTime.setText(newTime);
+			}
+		});
+		
+		//Scrambler Setup
+		JLabel lblScramble = new JLabel("temp");
+		GridBagConstraints gbc_lblScramble = new GridBagConstraints();
+		gbc_lblScramble.insets = new Insets(0, 0, 0, 5);
+		gbc_lblScramble.anchor = GridBagConstraints.NORTH;
+		gbc_lblScramble.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblScramble.gridx = 0;
+		gbc_lblScramble.gridy = 3;
+		contentPane.add(lblScramble, gbc_lblScramble);
+		
+		//Ghost Activator
+		JTextArea ghostSpace=new JTextArea();
+		ghostSpace.setEditable(false);
+		GridBagConstraints gbc_ghostSpace = new GridBagConstraints();
+		gbc_ghostSpace.anchor = GridBagConstraints.NORTH;
+		gbc_ghostSpace.fill = GridBagConstraints.HORIZONTAL;
+		gbc_ghostSpace.insets = new Insets(0, 0, 5, 5);
+		gbc_ghostSpace.gridx = 0;
+		gbc_ghostSpace.gridy = 0;
+		contentPane.add(ghostSpace, gbc_ghostSpace);
+		ghostSpace.setOpaque(false);
+		//Add Timer Functionality
+		ghostSpace.addKeyListener(new KeyListener(){ 
+			
+			int timeCheck = 0;
+		    
+			public void keyPressed(KeyEvent ke){ 
+
+		         if(ke.getKeyCode()==KeyEvent.VK_SPACE){
+		              if (tm.isRunning() == true && timeCheck == 1){
+		            	  tm.stop();
+		            	  timeList.setText(timeList.getText() + "\n " + lblTime.getText());
+		            	  timeCheck = 2;
+		              }
+		         }
+		    }
+
+			@Override
+			public void keyReleased(KeyEvent ke) {
+				if(ke.getKeyCode()==KeyEvent.VK_SPACE){
+					if(tm.isRunning() == false && timeCheck == 0){
+						tm.start();
+						lblTime.setText("0.00");
+						timeCheck = 1;
+					} else if (tm.isRunning() == false && timeCheck == 2){
+						timeCheck = 0;
+					}
+				}
+				
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		JComboBox<String> puzzleList = new JComboBox();
+		puzzleList.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				lblScramble.setText(scramble(puzzleList.getSelectedItem().toString()));
+			}
+		});
+		GridBagConstraints gbc_puzzleList = new GridBagConstraints();
+		gbc_puzzleList.insets = new Insets(0, 0, 5, 5);
+		gbc_puzzleList.fill = GridBagConstraints.HORIZONTAL;
+		gbc_puzzleList.gridx = 0;
+		gbc_puzzleList.gridy = 1;
+		contentPane.add(puzzleList, gbc_puzzleList);
+		puzzleList.addItem("3x3");
+		puzzleList.addItem("Temp");
+
+	} private String scramble(String puzzle){
+		Scrambler sc;
+		if (puzzle.equals("3x3")){
+			sc = new ThreeThree();
+			sc.scramble();
+			return sc.getScramble();
+		} else if (puzzle.equals("Temp")){
+			sc = new TempScramble();
+			sc.scramble();
+			sc.scramble();
+			return sc.getScramble();
+		}
+		return null;
+	}
+
+} class Calculator {
+	public Calculator(){
+		//todo placeholder
+	} 
+}

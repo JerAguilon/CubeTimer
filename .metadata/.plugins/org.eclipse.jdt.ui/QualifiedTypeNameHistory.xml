@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.lang.Math"/>
+<fullyQualifiedTypeName name="cubetimer.Scrambler"/>
+<fullyQualifiedTypeName name="javax.swing.Timer"/>
+<fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
+<fullyQualifiedTypeName name="java.awt.event.ActionEvent"/>
+<fullyQualifiedTypeName name="java.text.DecimalFormat"/>
+<fullyQualifiedTypeName name="java.math.RoundingMode"/>
+<fullyQualifiedTypeName name="javax.swing.JTextArea"/>
+<fullyQualifiedTypeName name="cubetimer.ThreeThree"/>
+<fullyQualifiedTypeName name="java.util.Random"/>
+<fullyQualifiedTypeName name="javax.swing.JComboBox"/>
+<fullyQualifiedTypeName name="javax.swing.DefaultListModel"/>
+<fullyQualifiedTypeName name="java.util.Scanner"/>
+</qualifiedTypeNameHistroy>
